@@ -14,17 +14,28 @@
   <body>
     <div id="content"></div>
     <script type="text/babel">
+    var data = [
+        {author: "Hugh Laurie", text: "I've had my anti-monarchist periods in the past, but I admit I was bowled over by the Queen. She is a very bright light."},
+        {author: "Stephen Fry", text: "I *think* you brought out the best in her, M'coll. Especially when you licked her neck"},
+        {author: "Hugh Laurie", text: "Embarrassing, isn't it? One glass of champagne and suddenly I can't tell the difference between a stamp and the real thing."}
+    ];
+
     var CommentList = React.createClass({
         render: function() {
+            var commentNodes = this.props.data.map(function (comment) {
+              return (
+                <Comment author={comment.author}>
+                  {comment.text}
+                </Comment>
+              );
+            });
             return (
-                <div className="commentList">
-                    <Comment author="Hugh Laurie">I've had my anti-monarchist periods in the past, but I admit I was bowled over by the Queen. She is a very bright light.</Comment>
-                    <Comment author="Stephen Fry">"I *think* you brought out the best in her, M'coll. Especially when you licked her neck</Comment>
-                    <Comment author="Hugh Laurie">Embarrassing, isn't it? One glass of champagne and suddenly I can't tell the difference between a stamp and the real thing.</Comment>
-                </div>
+              <div className="commentList">
+                {commentNodes}
+              </div>
             );
-        }
-    });
+          }
+        });
 
     var CommentForm = React.createClass({
         render: function() {
@@ -41,7 +52,7 @@
         return (
           <div className="commentBox">
             <h1>Comments</h1>
-            <CommentList />
+            <CommentList data={this.props.data} />
             <CommentForm />
           </div>
         );
@@ -66,8 +77,8 @@
     });
 
     ReactDOM.render(
-      <CommentBox />,
-      document.getElementById('content')
+        <CommentBox data={data} />,
+        document.getElementById('content')
     );
     </script>
   </body>
