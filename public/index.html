@@ -18,7 +18,9 @@
         render: function() {
             return (
                 <div className="commentList">
-                    Hello World! I am a CommentList.
+                    <Comment author="Hugh Laurie">I've had my anti-monarchist periods in the past, but I admit I was bowled over by the Queen. She is a very bright light.</Comment>
+                    <Comment author="Stephen Fry">"I *think* you brought out the best in her, M'coll. Especially when you licked her neck</Comment>
+                    <Comment author="Hugh Laurie">Embarrassing, isn't it? One glass of champagne and suddenly I can't tell the difference between a stamp and the real thing.</Comment>
                 </div>
             );
         }
@@ -45,6 +47,24 @@
         );
       }
     });
+
+    var Comment = React.createClass({
+         rawMarkup: function() {
+            var rawMarkup = marked(this.props.children.toString(), {sanitize: true});
+            return { __html: rawMarkup };
+          },
+        render: function() {
+            return (
+                <div className="comment">
+                    <h2 className="commentAuthor">
+                        {this.props.author}
+                    </h2>
+                    <span dangerouslySetInnerHTML={this.rawMarkup()} />
+                </div>
+            )
+        }
+    });
+
     ReactDOM.render(
       <CommentBox />,
       document.getElementById('content')
